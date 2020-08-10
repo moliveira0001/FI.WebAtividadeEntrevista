@@ -33,7 +33,7 @@ $(document).ready(function () {
                     "Cidade": $(this).find("#Cidade").val(),
                     "Logradouro": $(this).find("#Logradouro").val(),
                     "Telefone": $(this).find("#Telefone").val(),
-                    "Cpf": $(this).find("#Cpf"),
+                    "Cpf": $(this).find("#Cpf").val(),
                     "Beneficiarios": JSON.stringify(tableToJson($("#beneficiarios-table")))
                 },
                 error:
@@ -160,7 +160,7 @@ function getBeneficiarios() {
 
 function populaBeneficiario(r) {
 
-    $("#beneficiarios-table tr").remove();
+   // $("#beneficiarios-table tbody").remove();
 
     var tr;
     //Append each row to html table
@@ -173,11 +173,11 @@ function populaBeneficiario(r) {
         cols += '<td>' + r.Records[i].Nome + '</td>';
         cols += '<td>' + r.Records[i].Cpf + '</td>';
         cols += '<td>';
-        cols += '<button class="btn btn-sm btn-danger" value="Delete" onclick="ExcluiBeneficiario(' + r.Records[i].Id + ');deleteRow(this);" type="button">Excluir</button>';
+        cols +=      '<button class="btn btn-sm btn-danger" value="Delete" onclick="ExcluiBeneficiario(' + r.Records[i].Id + ');deleteRow(this);" type="button">Excluir</button>';
         cols += '</td>';
 
         cols += '<td>';
-        cols += '<button class="btn btn-sm btn-success" onclick="RemoveTableRow(this)" type="button">Editar</button>';
+        cols +=      '<button class="btn btn-sm btn-success" onclick="RemoveTableRow(this)" type="button">Editar</button>';
         cols += '</td>';
 
 

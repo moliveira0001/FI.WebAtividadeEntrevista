@@ -148,7 +148,7 @@ namespace FI.AtividadeEntrevista.DAL
             parametros.Add(new System.Data.SqlClient.SqlParameter("Email", cliente.Email));
             parametros.Add(new System.Data.SqlClient.SqlParameter("Telefone", cliente.Telefone));
             parametros.Add(new System.Data.SqlClient.SqlParameter("CPF", cliente.Cpf.Replace(".", "").Replace("-", "")));
-            parametros.Add(new System.Data.SqlClient.SqlParameter("ID", cliente.Id));
+            parametros.Add(new System.Data.SqlClient.SqlParameter("Id", cliente.Id));
 
             base.Executar("FI_SP_AltCliente", parametros);
 
