@@ -21,7 +21,7 @@ $(document).ready(function () {
                     width: '35%'
                 },
                 Cpf: {
-                    title: 'C.P.F',
+                    title: 'CPF',
                     width: '35%'
                 },
                 Alterar: {

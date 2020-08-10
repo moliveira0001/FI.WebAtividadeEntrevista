@@ -55,7 +55,7 @@ $(document).ready(function () {
             $(this).find("#Cpf").focus();
         }
     })
-    
+
 })
 
 function ModalDialog(titulo, texto) {
@@ -125,4 +125,87 @@ function CPFValido(strCPF) {
         return false;
     }
     return true;
-}
+};
+
+
+
+$(function () {
+    $("#Beneficiarios").click(function () {
+
+        $("#modal").modal();
+        getBeneficiarios();
+
+    });
+})
+
+
+function getBeneficiarios() {
+    $.ajax({
+        cache: false,
+        type: "POST",
+        dataType: "json",
+        url: urlListabeneficiarios + '/' + obj.Id,
+        success:
+            function (r) {
+                populaBeneficiario(r);
+            },
+        error:
+            function (r) {
+                if (r.status == 400)
+                    ModalDialog("Ocorreu um erro", r.responseJSON);
+                else if (r.status == 500)
+                    ModalDialog("Ocorreu um erro", "Ocorreu um erro interno no servidor.");
+            },
+    });
+};
+
+function populaBeneficiario(r) {
+
+    $("#beneficiarios-table tr").remove();
+
+    var tr;
+    //Append each row to html table
+    for (var i = 0; i < r.Records.length; i++) {
+
+
+        var newRow = $("<tr>");
+        var cols = "";
+
+        cols += '<td>' + r.Records[i].Nome + '</td>';
+        cols += '<td>' + r.Records[i].Cpf + '</td>';
+        cols += '<td>';
+        cols += '<button class="btn btn-sm btn-danger" onclick="remove(this)" type="button">Excluir</button>';
+        cols += '</td>';
+
+        cols += '<td>';
+        cols += '<button class="btn btn-sm btn-success" onclick="RemoveTableRow(this)" type="button">Editar</button>';
+        cols += '</td>';
+
+
+        newRow.append(cols);
+        $("#beneficiarios-table").append(newRow);
+
+    }
+};
+
+
+
+function ExcluiBeneficiario(id) {
+    $.ajax({
+        cache: false,
+        type: "POST",
+        dataType: "json",
+        url: urlListabeneficiarios + '/' + obj.Id,
+        success:
+            function (r) {
+                populaBeneficiario(r);
+            },
+        error:
+            function (r) {
+                if (r.status == 400)
+                    ModalDialog("Ocorreu um erro", r.responseJSON);
+                else if (r.status == 500)
+                    ModalDialog("Ocorreu um erro", "Ocorreu um erro interno no servidor.");
+            },
+    });
+};

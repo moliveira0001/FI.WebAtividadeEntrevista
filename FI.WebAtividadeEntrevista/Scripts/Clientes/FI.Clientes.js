@@ -19,19 +19,22 @@ $(document).ready(function () {
                     "Cidade": $(this).find("#Cidade").val(),
                     "Logradouro": $(this).find("#Logradouro").val(),
                     "Telefone": $(this).find("#Telefone").val(),
-                    "Cpf": $(this).find("#Cpf").val(),                    
+                    "Cpf": $(this).find("#Cpf").val(),
                     "Beneficiarios": JSON.stringify(tableToJson($("#beneficiarios-table")))
                 },
                 error:
                     function (r) {
-                        if (r.status == 400)
-                            ModalDialog("Ocorreu um erro", r.responseJSON);
+                        if (r.status == 400) {
+                            ModalDialog("Ocorreu um erro", r.responseText);
+                        }
                         else if (r.status == 500)
                             ModalDialog("Ocorreu um erro", "Ocorreu um erro interno no servidor.");
+                        else if (r.status == 5000)
+                            ModalDialog("Ocorreu um erro", "C.P.F já cadastrado!.");
                     },
                 success:
                     function (r) {
-                        ModalDialog("Sucesso!", r)
+                        ModalDialog("Sucesso!", 'Cadastrado com sucesso!')
                         $("#formCadastro")[0].reset();
                     }
             });
@@ -115,33 +118,35 @@ function CPFValido(strCPF) {
 
 $(function () {
     $("#Beneficiarios").click(function () {
-        var id = $(this).attr("data-id");
-        $("#modal").load("Details?id=" + id, function () {
-            $("#modal").modal();
-        })
+
+        $("#modal").modal();
+
     });
 })
 
 $(function () {
-        $("#IncluirBeneficiarios").click(function () {
-            var newRow = $("<tr>");
-            var cols = "";
-
-            cols += '<td>'+ $("#NomeBeneficiario").val()+'</td>';
-            cols += '<td>' + $("#CpfBeneficiario").val() +'</td>';
-            cols += '<td>';
-            cols += '<button class="btn btn-sm btn-danger" onclick="remove(this)" type="button">Excluir</button>';
-            cols += '</td>';
-
-            cols += '<td>';
-            cols += '<button class="btn btn-sm btn-success" onclick="RemoveTableRow(this)" type="button">Editar</button>';
-            cols += '</td>';
+    $("#IncluirBeneficiarios").click(function () {
 
 
-            newRow.append(cols);
-            $("#beneficiarios-table").append(newRow);
-            return false;
-        });
+
+        var newRow = $("<tr>");
+        var cols = "";
+
+        cols += '<td>' + $("#NomeBeneficiario").val() + '</td>';
+        cols += '<td>' + $("#CpfBeneficiario").val() + '</td>';
+        cols += '<td>';
+        cols += '<button class="btn btn-sm btn-danger" onclick="remove(this)" type="button">Excluir</button>';
+        cols += '</td>';
+
+        cols += '<td>';
+        cols += '<button class="btn btn-sm btn-success" onclick="RemoveTableRow(this)" type="button">Editar</button>';
+        cols += '</td>';
+
+
+        newRow.append(cols);
+        $("#beneficiarios-table").append(newRow);
+        return false;
+    });
 })(jQuery);
 
 

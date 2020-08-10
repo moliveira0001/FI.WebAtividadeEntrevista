@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 namespace FI.AtividadeEntrevista.DML
 {
     [Serializable]
-    public class Beneficiario
+    public class Beneficiario : Cliente
     {
-        public string Nome { get; set; }
-        public string Cpf { get; set; }
+        public int IdCliente { get; set; }
     }
 }

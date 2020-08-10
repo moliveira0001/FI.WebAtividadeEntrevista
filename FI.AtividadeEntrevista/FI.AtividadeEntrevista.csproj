@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BLL\BoBeneficiario.cs" />
     <Compile Include="BLL\BoCliente.cs" />
     <Compile Include="DAL\Clientes\DaoBeneficiario.cs" />
     <Compile Include="DAL\Clientes\DaoCliente.cs" />
@@ -78,7 +79,9 @@
     <EmbeddedResource Include="DAL\Clientes\Procedures\FI_SP_IncCliente.sql" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DAL\Clientes\Procedures\FI_SP_ConsBeneficiario.sql" />
     <Content Include="DAL\Clientes\Procedures\FI_SP_IncBenef.sql" />
+    <Content Include="DAL\Clientes\Procedures\FI_SP_IncClienteV2.sql" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">

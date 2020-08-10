@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
 namespace FI.AtividadeEntrevista.BLL
 {
@@ -15,7 +13,24 @@ namespace FI.AtividadeEntrevista.BLL
         public long Incluir(DML.Cliente cliente)
         {
             DAL.DaoCliente cli = new DAL.DaoCliente();
-            return cli.Incluir(cliente);
+            long ret = 0; 
+            try
+            {
+
+                if (!cli.VerificarExistencia(cliente.Cpf.Replace(".","").Replace("-","")))
+                {
+                    ret = cli.Incluir(cliente);
+                }
+                else {
+                    throw new HttpException(400,"C.P.F já cadastrado!");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return ret;
         }
 
         /// <summary>
@@ -65,7 +80,7 @@ namespace FI.AtividadeEntrevista.BLL
         public List<DML.Cliente> Pesquisa(int iniciarEm, int quantidade, string campoOrdenacao, bool crescente, out int qtd)
         {
             DAL.DaoCliente cli = new DAL.DaoCliente();
-            return cli.Pesquisa(iniciarEm,  quantidade, campoOrdenacao, crescente, out qtd);
+            return cli.Pesquisa(iniciarEm, quantidade, campoOrdenacao, crescente, out qtd);
         }
 
         /// <summary>
