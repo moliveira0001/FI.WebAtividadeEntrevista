@@ -12,7 +12,7 @@ namespace FI.AtividadeEntrevista.DAL
         {
             List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
 
-            parametros.Add(new System.Data.SqlClient.SqlParameter("Nome", beneficiario.Nome));      
+            parametros.Add(new System.Data.SqlClient.SqlParameter("Nome", beneficiario.Nome));
             parametros.Add(new System.Data.SqlClient.SqlParameter("CPF", beneficiario.Cpf.Replace(".", "").Replace("-", "")));
 
             DataSet ds = base.Consultar("FI_SP_IncBenef", parametros);
@@ -24,13 +24,22 @@ namespace FI.AtividadeEntrevista.DAL
         }
 
 
+        internal void Excluir(long id)
+        {
+            List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
+
+            parametros.Add(new System.Data.SqlClient.SqlParameter("ID", id));
+            base.Executar("FI_SP_DelBenef", parametros);
+           
+        }
+
         internal List<DML.Beneficiario> Listar(long id)
         {
             List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
 
-            parametros.Add(new System.Data.SqlClient.SqlParameter("Id", id));
+            parametros.Add(new System.Data.SqlClient.SqlParameter("ID", id));
 
-            DataSet ds = base.Consultar("FI_SP_ConsCliente", parametros);
+            DataSet ds = base.Consultar("FI_SP_ConsBeneficiario", parametros);
             List<DML.Beneficiario> cli = Converter(ds);
 
             return cli;
@@ -43,11 +52,11 @@ namespace FI.AtividadeEntrevista.DAL
             {
                 foreach (DataRow row in ds.Tables[0].Rows)
                 {
-                    DML.Beneficiario cli = new DML.Beneficiario();
-                    cli.Id = row.Field<long>("ID");                   
-                    cli.Nome = row.Field<string>("Nome");                  
-                    cli.Cpf = row.Field<string>("CPF").Insert(3, ".").Insert(7, ".").Insert(11, "-");
-                    lista.Add(cli);
+                    DML.Beneficiario ben = new DML.Beneficiario();
+                    ben.Id = row.Field<long>("ID");
+                    ben.Nome = row.Field<string>("Nome");
+                    ben.Cpf = row.Field<string>("CPF").Insert(3, ".").Insert(7, ".").Insert(11, "-");
+                    lista.Add(ben);
                 }
             }
 

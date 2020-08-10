@@ -33,7 +33,8 @@ $(document).ready(function () {
                     "Cidade": $(this).find("#Cidade").val(),
                     "Logradouro": $(this).find("#Logradouro").val(),
                     "Telefone": $(this).find("#Telefone").val(),
-                    "Cpf": $(this).find("#Cpf")
+                    "Cpf": $(this).find("#Cpf"),
+                    "Beneficiarios": JSON.stringify(tableToJson($("#beneficiarios-table")))
                 },
                 error:
                     function (r) {
@@ -131,10 +132,8 @@ function CPFValido(strCPF) {
 
 $(function () {
     $("#Beneficiarios").click(function () {
-
         $("#modal").modal();
         getBeneficiarios();
-
     });
 })
 
@@ -170,11 +169,11 @@ function populaBeneficiario(r) {
 
         var newRow = $("<tr>");
         var cols = "";
-
+        cols += '<td style="display:none;">' + r.Records[i].Id + '</td>';
         cols += '<td>' + r.Records[i].Nome + '</td>';
         cols += '<td>' + r.Records[i].Cpf + '</td>';
         cols += '<td>';
-        cols += '<button class="btn btn-sm btn-danger" onclick="remove(this)" type="button">Excluir</button>';
+        cols += '<button class="btn btn-sm btn-danger" value="Delete" onclick="ExcluiBeneficiario(' + r.Records[i].Id + ');deleteRow(this);" type="button">Excluir</button>';
         cols += '</td>';
 
         cols += '<td>';
@@ -188,17 +187,21 @@ function populaBeneficiario(r) {
     }
 };
 
-
+function deleteRow(btn) {
+    var row = btn.parentNode.parentNode;
+    row.parentNode.removeChild(row);
+}
 
 function ExcluiBeneficiario(id) {
     $.ajax({
         cache: false,
-        type: "POST",
+        type: "DELETE",
         dataType: "json",
-        url: urlListabeneficiarios + '/' + obj.Id,
+        url: urlExcluirBeneficiario + '/' + id,
         success:
             function (r) {
-                populaBeneficiario(r);
+
+
             },
         error:
             function (r) {
@@ -209,3 +212,46 @@ function ExcluiBeneficiario(id) {
             },
     });
 };
+
+function tableToJson(table) {
+    var data = [];
+    var headers = [];
+    for (var i = 0; i < 3; i++) {
+        headers[i] = table[0].rows[0].cells[i].textContent.toLowerCase().replace(".", "").replace(".", "");
+    }
+    for (var i = 1; i < table[0].rows.length; i++) {
+
+        var tableRow = table[0].rows[i];
+        var rowData = {};
+        for (var j = 0; j < 3; j++) {
+            rowData[headers[j]] = tableRow.cells[j].textContent;
+        }
+        data.push(rowData);
+    }
+
+    return data;
+}
+
+
+$(function () {
+    $("#IncluirBeneficiarios").click(function () {
+
+        var newRow = $("<tr>");
+        var cols = "";
+        cols += '<td style="display:none">0</td>';
+        cols += '<td>' + $("#NomeBeneficiario").val() + '</td>';
+        cols += '<td>' + $("#CpfBeneficiario").val() + '</td>';
+        cols += '<td>';
+        cols += '<button class="btn btn-sm btn-danger" onclick="deleteRow(this)" type="button">Excluir</button>';
+        cols += '</td>';
+
+        cols += '<td>';
+        cols += '<button class="btn btn-sm btn-success" onclick="RemoveTableRow(this)" type="button">Editar</button>';
+        cols += '</td>';
+
+
+        newRow.append(cols);
+        $("#beneficiarios-table").append(newRow);
+        return false;
+    });
+})(jQuery);

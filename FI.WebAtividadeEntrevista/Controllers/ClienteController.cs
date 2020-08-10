@@ -88,7 +88,8 @@ namespace WebAtividadeEntrevista.Controllers
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
                     Telefone = model.Telefone,
-                    Cpf = model.Cpf
+                    Cpf = model.Cpf,
+                    Beneficiarios = ConverterJsonList(model.Beneficiarios)
                 });
 
                 return Json("Cadastro alterado com sucesso");
@@ -161,6 +162,21 @@ namespace WebAtividadeEntrevista.Controllers
                 List<Beneficiario> beneficiario = new BoBeneficiario().Listar(id);
                 //Return result to jTable
                 return Json(new { Result = "OK", Records = beneficiario });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "ERROR", Message = ex.Message });
+            }
+        }
+
+        [HttpDelete]
+        public JsonResult ExcluirBeneficiario(long id)
+        {
+            try
+            {
+                new BoBeneficiario().Excluir(id);
+              
+                return Json(new { Result = "OK" });
             }
             catch (Exception ex)
             {

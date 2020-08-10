@@ -9,10 +9,17 @@ namespace FI.AtividadeEntrevista.BLL
     public class BoBeneficiario
     {
         public List<DML.Beneficiario> Listar(long Id)
-        {            
-            
+        {
+
             DAL.DaoBeneficiario be = new DAL.DaoBeneficiario();
             return be.Listar(Id);
+        }
+
+        public void Excluir(long Id)
+        {
+
+            DAL.DaoBeneficiario be = new DAL.DaoBeneficiario();
+            be.Excluir(Id);
         }
     }
 }

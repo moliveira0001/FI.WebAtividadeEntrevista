@@ -131,11 +131,11 @@ $(function () {
 
         var newRow = $("<tr>");
         var cols = "";
-
+        cols += '<td style="display:none">0</td>';
         cols += '<td>' + $("#NomeBeneficiario").val() + '</td>';
         cols += '<td>' + $("#CpfBeneficiario").val() + '</td>';
         cols += '<td>';
-        cols += '<button class="btn btn-sm btn-danger" onclick="remove(this)" type="button">Excluir</button>';
+        cols += '<button class="btn btn-sm btn-danger" onclick="deleteRow(this)" type="button">Excluir</button>';
         cols += '</td>';
 
         cols += '<td>';
@@ -150,16 +150,11 @@ $(function () {
 })(jQuery);
 
 
-(function ($) {
-    remove = function (item) {
-        var tr = $(item).closest('tr');
-        tr.fadeOut(400, function () {
-            tr.remove();
-        });
 
-        return false;
-    }
-})(jQuery);
+function deleteRow(btn) {
+    var row = btn.parentNode.parentNode;
+    row.parentNode.removeChild(row);
+}
 
 
 
@@ -167,14 +162,14 @@ $(function () {
 function tableToJson(table) {
     var data = [];
     var headers = [];
-    for (var i = 0; i < 2; i++) {
+    for (var i = 0; i < 3; i++) {
         headers[i] = table[0].rows[0].cells[i].textContent.toLowerCase().replace(".", "").replace(".", "");
     }
     for (var i = 1; i < table[0].rows.length; i++) {
 
         var tableRow = table[0].rows[i];
         var rowData = {};
-        for (var j = 0; j < 2; j++) {
+        for (var j = 0; j < 3; j++) {
             rowData[headers[j]] = tableRow.cells[j].textContent;
         }
         data.push(rowData);

@@ -63,7 +63,7 @@ namespace FI.AtividadeEntrevista.DAL
 
                 throw ex;
             }
-          
+
         }
 
         /// <summary>
@@ -151,6 +151,29 @@ namespace FI.AtividadeEntrevista.DAL
             parametros.Add(new System.Data.SqlClient.SqlParameter("ID", cliente.Id));
 
             base.Executar("FI_SP_AltCliente", parametros);
+
+            foreach (var item in cliente.Beneficiarios)
+            {
+                parametros.Clear();
+                parametros.Add(new System.Data.SqlClient.SqlParameter("Nome", item.Nome));
+                parametros.Add(new System.Data.SqlClient.SqlParameter("CPF", item.Cpf.Replace(".", "").Replace("-", "")));
+                parametros.Add(new System.Data.SqlClient.SqlParameter("ID", item.Id));
+
+                if (item.Id == 0)
+                {
+                    parametros.Clear();
+                    parametros.Add(new System.Data.SqlClient.SqlParameter("Nome", item.Nome));
+                    parametros.Add(new System.Data.SqlClient.SqlParameter("CPF", item.Cpf.Replace(".", "").Replace("-", "")));
+                    parametros.Add(new System.Data.SqlClient.SqlParameter("IDCLIENTE", cliente.Id));
+
+                    base.Executar("FI_SP_IncBenef", parametros);
+                }
+                else
+                {
+                    base.Executar("FI_SP_AltBenef", parametros);
+                }
+            }
+
         }
 
 
@@ -185,7 +208,7 @@ namespace FI.AtividadeEntrevista.DAL
                     cli.Nome = row.Field<string>("Nome");
                     cli.Sobrenome = row.Field<string>("Sobrenome");
                     cli.Telefone = row.Field<string>("Telefone");
-                    cli.Cpf = row.Field<string>("CPF").Insert(3,".").Insert(7,".").Insert(11,"-");
+                    cli.Cpf = row.Field<string>("CPF").Insert(3, ".").Insert(7, ".").Insert(11, "-");
                     lista.Add(cli);
                 }
             }
