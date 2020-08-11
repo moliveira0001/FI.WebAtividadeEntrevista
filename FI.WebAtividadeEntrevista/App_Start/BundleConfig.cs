@@ -28,8 +28,10 @@ namespace WebAtividadeEntrevista
 
             bundles.Add(new ScriptBundle("~/bundles/clientes").Include(
                       "~/Scripts/Clientes/FI.Clientes.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/listClientes").Include(
                       "~/Scripts/Clientes/FI.ListClientes.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/altClientes").Include(
                       "~/Scripts/Clientes/FI.AltClientes.js"));
 
@@ -40,6 +42,12 @@ namespace WebAtividadeEntrevista
             bundles.Add(new StyleBundle("~/Content/jtable").Include(
                       "~/Scripts/jtable/themes/metro/darkgray/jtable.css"));
 
+
+            //bundles.Add(new ScriptBundle("~/bundles/clientes").Include(
+            //          "~/Scripts/helper.js"));
+
+            //bundles.Add(new ScriptBundle("~/bundles/altClientes").Include(
+            //         "~/Scripts/helper.js"));
         }
     }
 }

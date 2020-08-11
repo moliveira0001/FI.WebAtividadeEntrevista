@@ -128,6 +128,15 @@ $(function () {
     $("#IncluirBeneficiarios").click(function () {
 
 
+        if ($("#NomeBeneficiario").val() == '') {           
+            return;
+        }
+
+
+        if ($("#CpfBeneficiario").val() == '' ){
+            return;
+        }
+
 
         var newRow = $("<tr>");
         var cols = "";
@@ -145,6 +154,11 @@ $(function () {
 
         newRow.append(cols);
         $("#beneficiarios-table").append(newRow);
+
+        $(this).find("#CpfBeneficiario").val('');
+        $(this).find("#NomeBeneficiario").val('');
+        $(this).find("#NomeBeneficiario").focus();
+
         return false;
     });
 })(jQuery);

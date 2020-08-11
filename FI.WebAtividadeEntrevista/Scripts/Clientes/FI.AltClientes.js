@@ -236,6 +236,16 @@ function tableToJson(table) {
 $(function () {
     $("#IncluirBeneficiarios").click(function () {
 
+
+        if ($("#NomeBeneficiario").val() == '') {
+            return;
+        }
+
+
+        if ($("#CpfBeneficiario").val() == '') {
+            return;
+        }
+
         var newRow = $("<tr>");
         var cols = "";
         cols += '<td style="display:none">0</td>';
