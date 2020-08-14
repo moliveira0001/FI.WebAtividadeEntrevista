@@ -57,7 +57,7 @@ $(document).ready(function () {
         }
     })
 
-})
+});
 
 function ModalDialog(titulo, texto) {
     var random = Math.random().toString().replace('.', '');
@@ -81,7 +81,7 @@ function ModalDialog(titulo, texto) {
 
     $('body').append(texto);
     $('#' + random).modal('show');
-}
+};
 
 function formatar(mascara, documento) {
     var i = documento.value.length;
@@ -91,9 +91,7 @@ function formatar(mascara, documento) {
     if (texto.substring(0, 1) != saida) {
         documento.value += texto.substring(0, 1);
     }
-
-}
-
+};
 
 function ValidaCPF(strCPF) {
     var Soma;
@@ -117,8 +115,7 @@ function ValidaCPF(strCPF) {
     if ((Resto == 10) || (Resto == 11)) Resto = 0;
     if (Resto != parseInt(strCPF.substring(10, 11))) return false;
     return true;
-}
-
+};
 
 function CPFValido(strCPF) {
     if (!ValidaCPF(strCPF)) {
@@ -128,15 +125,12 @@ function CPFValido(strCPF) {
     return true;
 };
 
-
-
 $(function () {
     $("#Beneficiarios").click(function () {
         $("#modal").modal();
         getBeneficiarios();
     });
-})
-
+});
 
 function getBeneficiarios() {
     $.ajax({
@@ -160,7 +154,7 @@ function getBeneficiarios() {
 
 function populaBeneficiario(r) {
 
-   // $("#beneficiarios-table tbody").remove();
+    // $("#beneficiarios-table tbody").remove();
 
     var tr;
     //Append each row to html table
@@ -173,11 +167,11 @@ function populaBeneficiario(r) {
         cols += '<td>' + r.Records[i].Nome + '</td>';
         cols += '<td>' + r.Records[i].Cpf + '</td>';
         cols += '<td>';
-        cols +=      '<button class="btn btn-sm btn-danger" value="Delete" onclick="ExcluiBeneficiario(' + r.Records[i].Id + ');deleteRow(this);" type="button">Excluir</button>';
+        cols += '<button class="btn btn-sm btn-danger" value="Delete" onclick="ExcluiBeneficiario(' + r.Records[i].Id + ');deleteRow(this);" type="button">Excluir</button>';
         cols += '</td>';
 
         cols += '<td>';
-        cols +=      '<button class="btn btn-sm btn-success" onclick="RemoveTableRow(this)" type="button">Editar</button>';
+        cols += '<button class="btn btn-sm btn-success" onclick="editTableRow(this)" type="button">Editar</button>';
         cols += '</td>';
 
 
@@ -190,7 +184,7 @@ function populaBeneficiario(r) {
 function deleteRow(btn) {
     var row = btn.parentNode.parentNode;
     row.parentNode.removeChild(row);
-}
+};
 
 function ExcluiBeneficiario(id) {
     $.ajax({
@@ -230,12 +224,12 @@ function tableToJson(table) {
     }
 
     return data;
-}
-
+};
 
 $(function () {
     $("#IncluirBeneficiarios").click(function () {
 
+        var table = $("#beneficiarios-table");
 
         if ($("#NomeBeneficiario").val() == '') {
             return;
@@ -246,22 +240,73 @@ $(function () {
             return;
         }
 
+        var cpfValido = CPFValido($("#CpfBeneficiario").val());
+        if (!cpfValido) {
+            $("#CpfBeneficiario").val('');
+            $("#NomeBeneficiario").val('');
+            $("#NomeBeneficiario").focus();
+          
+            return false;
+        }
+
+        for (var i = 1; i < table[0].rows.length; i++) {
+
+            var tableRow = table[0].rows[i];
+
+            if (tableRow.cells[2].outerText == $("#CpfBeneficiario").val()) {
+
+                $("#CpfBeneficiario").val('');
+                $("#NomeBeneficiario").val('');
+                $("#NomeBeneficiario").focus();
+                alert('CPF já incluído!');
+                return false;
+            }
+
+        }
+
+
+
         var newRow = $("<tr>");
         var cols = "";
-        cols += '<td style="display:none">0</td>';
-        cols += '<td>' + $("#NomeBeneficiario").val() + '</td>';
-        cols += '<td>' + $("#CpfBeneficiario").val() + '</td>';
+
+        cols += '<td style="display:none">' +
+                     $("#IdBeneficiario").val()
+                 +'</td >';
+
+        cols += '<td>'
+                    + $("#NomeBeneficiario").val() +
+               '</td>';
+        cols += '<td>'
+                    + $("#CpfBeneficiario").val() +
+                '</td>';
+
         cols += '<td>';
         cols += '<button class="btn btn-sm btn-danger" onclick="deleteRow(this)" type="button">Excluir</button>';
         cols += '</td>';
 
         cols += '<td>';
-        cols += '<button class="btn btn-sm btn-success" onclick="RemoveTableRow(this)" type="button">Editar</button>';
+        cols += '<button class="btn btn-sm btn-success" onclick="editTableRow(this)" type="button">Editar</button>';
         cols += '</td>';
 
-
         newRow.append(cols);
+
         $("#beneficiarios-table").append(newRow);
+
+        $("#CpfBeneficiario").val('');
+        $("#NomeBeneficiario").val('');
+        $("#IdBeneficiario").val('');
+        $("#NomeBeneficiario").focus();
+
         return false;
     });
-})(jQuery);
+});
+
+function editTableRow(trow) {
+    var row = trow.parentNode.parentNode;
+
+    $("#IdBeneficiario").val(row.cells[0].outerText);
+    $("#NomeBeneficiario").val(row.cells[1].outerText);
+    $("#CpfBeneficiario").val(row.cells[2].outerText);
+
+    row.parentNode.removeChild(row);
+};

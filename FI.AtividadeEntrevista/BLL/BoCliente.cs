@@ -22,7 +22,7 @@ namespace FI.AtividadeEntrevista.BLL
                     ret = cli.Incluir(cliente);
                 }
                 else {
-                    throw new HttpException(400,"C.P.F já cadastrado!");
+                    throw new HttpException(401,"CPF já cadastrado!");
                 }
             }
             catch (Exception ex)
