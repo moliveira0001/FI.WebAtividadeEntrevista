@@ -13,6 +13,7 @@ namespace FI.AtividadeEntrevista.BLL
 
             DAL.DaoBeneficiario be = new DAL.DaoBeneficiario();
             return be.Listar(Id);
+
         }
 
         public void Excluir(long Id)
