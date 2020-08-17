@@ -319,6 +319,7 @@ function editTableRow(trow) {
     $("#CpfBeneficiario").val(row.cells[2].outerText);
 
     row.parentNode.removeChild(row);
+
 };
 
 
