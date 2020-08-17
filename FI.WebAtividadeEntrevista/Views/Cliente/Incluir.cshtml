@@ -4,7 +4,10 @@
 }
 @section scripts{
     <script>
-        var urlPost = '@Url.Action("Incluir", "Cliente", new { area = "" })';
+        var urlPost = '@Url.Action("Incluir", "Cliente", new { area = "" })';        
+        var urlVerificaBeneficiario = '@Url.Action("ExisteBeneficiario", "Cliente", new { area = "" })';
+        var urlVerificaCliente = '@Url.Action("ExisteCliente", "Cliente", new { area = "" })';
+
     </script>
     @Scripts.Render("~/bundles/clientes")
 }

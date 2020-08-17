@@ -24,6 +24,12 @@ namespace WebAtividadeEntrevista
                url: "{controller}/{action}/{id}",
                defaults: new { controller = "Cliente", action = "BeneficiarioList", id = UrlParameter.Optional }
            );
+
+            routes.MapRoute(
+              name: "BeneficiarioExiste",
+              url: "{controller}/{action}/{cpf}",
+              defaults: new { controller = "Cliente", action = "ExisteBeneficiario", cpf = UrlParameter.Optional }
+          );
         }
     }
 }

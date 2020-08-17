@@ -21,5 +21,11 @@ namespace FI.AtividadeEntrevista.BLL
             DAL.DaoBeneficiario be = new DAL.DaoBeneficiario();
             be.Excluir(Id);
         }
+
+        public bool VerificarExistencia(string CPF)
+        {
+            DAL.DaoBeneficiario be = new DAL.DaoBeneficiario();
+            return be.VerificarExistencia(CPF);
+        }
     }
 }

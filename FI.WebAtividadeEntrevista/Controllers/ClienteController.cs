@@ -175,8 +175,54 @@ namespace WebAtividadeEntrevista.Controllers
             try
             {
                 new BoBeneficiario().Excluir(id);
-              
+
                 return Json(new { Result = "OK" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "ERROR", Message = ex.Message });
+            }
+        }
+
+
+        [HttpPost]
+        public JsonResult ExisteBeneficiario(long id)
+        {
+            try
+            {
+
+                bool retorno = false;
+
+                retorno = new BoBeneficiario().VerificarExistencia(id.ToString());
+
+                if (retorno)
+                    return Json(new { Result = "OK" });
+                else
+                    return Json(new { Result = "NOK" });
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "ERROR", Message = ex.Message });
+            }
+        }
+
+
+        [HttpPost]
+        public JsonResult ExisteCliente(long id)
+        {
+            try
+            {
+
+                bool retorno = false;
+
+                retorno = new BoCliente().VerificarExistencia(id.ToString());
+
+                if (retorno)
+                    return Json(new { Result = "OK" });
+                else
+                    return Json(new { Result = "NOK" });
+
             }
             catch (Exception ex)
             {
