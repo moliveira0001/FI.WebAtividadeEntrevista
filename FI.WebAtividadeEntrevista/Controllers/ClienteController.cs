@@ -216,7 +216,7 @@ namespace WebAtividadeEntrevista.Controllers
 
                 bool retorno = false;
 
-                retorno = new BoCliente().VerificarExistencia(id.ToString());
+                retorno = new BoCliente().VerificarExistencia(id.ToString().PadLeft(11,'0'));
 
                 if (retorno)
                     return Json(new { Result = "OK" });

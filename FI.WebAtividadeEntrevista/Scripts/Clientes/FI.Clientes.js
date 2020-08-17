@@ -42,7 +42,7 @@ $(document).ready(function () {
             $(this).find("#Cpf").val('');
             $(this).find("#Cpf").focus();
         }
-    })
+    }) 
 
 });
 
@@ -146,8 +146,8 @@ $(function () {
 
 
         ExisteBeneficiario($("#CpfBeneficiario").val());
-          
-        
+
+
 
 
 
@@ -239,10 +239,8 @@ function tableToJson(table) {
     return data;
 };
 
-
-
 function ExisteBeneficiario(cpf) {
-  
+
     cpf = cpf.replace(".", "").replace(".", "").replace("-", "");
 
     $.ajax({
@@ -271,14 +269,11 @@ function ExisteBeneficiario(cpf) {
                     ModalDialog("Ocorreu um erro", "Ocorreu um erro interno no servidor.");
             },
     });
-  
+
 };
 
-
 function ExisteCliente(cpf) {
-    var ret = false;
     cpf = cpf.replace(".", "").replace(".", "").replace("-", "");
-
     $.ajax({
         cache: false,
         type: "POST",
@@ -287,17 +282,25 @@ function ExisteCliente(cpf) {
         success:
             function (r) {
                 if (r.Result == 'OK') {
-                    ret = true;
+
+                    ModalDialog("Ocorreu um erro", "CPF já existe!.");
+                    $("#Cpf").val('');
+                    $("#Cpf").focus();
+                    return false;
                 }
             },
         error:
             function (r) {
                 if (r.status == 400)
                     ModalDialog("Ocorreu um erro", r.responseJSON);
-                else if (r.status == 500)
-                    ModalDialog("Ocorreu um erro", "Ocorreu um erro interno no servidor.");
+               
             },
     });
-
-    return ret;
 };
+
+$("#Cpf").blur
+    (function () {
+        ExisteCliente($("#Cpf").val())
+    });
+
+
